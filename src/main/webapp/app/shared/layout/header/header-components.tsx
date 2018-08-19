@@ -18,11 +18,7 @@ export const NavDropdown = props => (
   </UncontrolledDropdown>
 );
 
-export const BrandIcon = props => (
-  <div {...props} className="brand-icon">
-    <img src="content/images/logo-jhipster-react.svg" alt="Logo" />
-  </div>
-);
+export const BrandIcon = props => <div {...props} className="brand-icon" />;
 
 export const Brand = props => (
   <NavbarBrand tag={Link} to="/" className="brand-logo">
