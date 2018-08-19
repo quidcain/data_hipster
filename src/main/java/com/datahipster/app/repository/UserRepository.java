@@ -1,6 +1,6 @@
 package com.datahipster.app.repository;
 
-import com.datahipster.app.domain.User;
+import com.datahipster.app.model.User;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;

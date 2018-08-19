@@ -2,7 +2,7 @@ package com.datahipster.app.web.rest;
 
 import com.datahipster.app.DatahipsterApp;
 import com.datahipster.app.config.audit.AuditEventConverter;
-import com.datahipster.app.domain.PersistentAuditEvent;
+import com.datahipster.app.model.PersistentAuditEvent;
 import com.datahipster.app.repository.PersistenceAuditEventRepository;
 import com.datahipster.app.service.AuditEventService;
 import org.junit.Before;

@@ -1,7 +1,7 @@
 package com.datahipster.app.service.mapper;
 
-import com.datahipster.app.domain.Authority;
-import com.datahipster.app.domain.User;
+import com.datahipster.app.model.Authority;
+import com.datahipster.app.model.User;
 import com.datahipster.app.service.dto.UserDTO;
 
 import org.springframework.stereotype.Service;

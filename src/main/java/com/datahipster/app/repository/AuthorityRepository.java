@@ -1,6 +1,6 @@
 package com.datahipster.app.repository;
 
-import com.datahipster.app.domain.Authority;
+import com.datahipster.app.model.Authority;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

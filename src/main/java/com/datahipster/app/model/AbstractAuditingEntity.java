@@ -1,4 +1,4 @@
-package com.datahipster.app.domain;
+package com.datahipster.app.model;
 
 import java.io.Serializable;
 

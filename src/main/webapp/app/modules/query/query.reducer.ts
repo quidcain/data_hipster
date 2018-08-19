@@ -47,9 +47,9 @@ export default (state: QueryState = initialState, action): QueryState => {
 // Actions
 const apiUrl = 'api/account';
 
-export const runQuery = (currentPassword, newPassword) => ({
+export const runQuery = (query, dataSourceId) => ({
   type: ACTION_TYPES.RUN_QUERY,
-  payload: axios.post(`${apiUrl}/change-password`, { currentPassword, newPassword }),
+  payload: axios.post(`${apiUrl}/query`, { query, dataSourceId }),
   meta: {
     successMessage: '<strong>Query executed</strong>',
     errorMessage: '<strong>Error Running Query</strong> no data will be returned.'

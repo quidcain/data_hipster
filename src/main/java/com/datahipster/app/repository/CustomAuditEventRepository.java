@@ -2,7 +2,7 @@ package com.datahipster.app.repository;
 
 import com.datahipster.app.config.Constants;
 import com.datahipster.app.config.audit.AuditEventConverter;
-import com.datahipster.app.domain.PersistentAuditEvent;
+import com.datahipster.app.model.PersistentAuditEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

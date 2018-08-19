@@ -1,6 +1,6 @@
 package com.datahipster.app.config.audit;
 
-import com.datahipster.app.domain.PersistentAuditEvent;
+import com.datahipster.app.model.PersistentAuditEvent;
 
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;

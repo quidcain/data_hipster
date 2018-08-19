@@ -1,7 +1,7 @@
 package com.datahipster.app.web.rest;
 
 import com.datahipster.app.DatahipsterApp;
-import com.datahipster.app.domain.User;
+import com.datahipster.app.model.User;
 import com.datahipster.app.repository.UserRepository;
 import com.datahipster.app.security.jwt.TokenProvider;
 import com.datahipster.app.web.rest.vm.LoginVM;

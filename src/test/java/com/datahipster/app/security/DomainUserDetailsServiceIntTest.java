@@ -1,7 +1,7 @@
 package com.datahipster.app.security;
 
 import com.datahipster.app.DatahipsterApp;
-import com.datahipster.app.domain.User;
+import com.datahipster.app.model.User;
 import com.datahipster.app.repository.UserRepository;
 
 import org.apache.commons.lang3.RandomStringUtils;

@@ -1,8 +1,8 @@
 package com.datahipster.app.web.rest;
 
 import com.datahipster.app.DatahipsterApp;
-import com.datahipster.app.domain.Authority;
-import com.datahipster.app.domain.User;
+import com.datahipster.app.model.Authority;
+import com.datahipster.app.model.User;
 import com.datahipster.app.repository.UserRepository;
 import com.datahipster.app.security.AuthoritiesConstants;
 import com.datahipster.app.service.MailService;

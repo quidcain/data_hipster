@@ -1,4 +1,4 @@
-package com.datahipster.app.domain;
+package com.datahipster.app.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

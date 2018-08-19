@@ -1,6 +1,6 @@
 package com.datahipster.app.service;
 
-import com.datahipster.app.domain.User;
+import com.datahipster.app.model.User;
 
 import io.github.jhipster.config.JHipsterProperties;
 

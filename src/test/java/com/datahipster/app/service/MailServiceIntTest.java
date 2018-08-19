@@ -2,7 +2,7 @@ package com.datahipster.app.service;
 import com.datahipster.app.config.Constants;
 
 import com.datahipster.app.DatahipsterApp;
-import com.datahipster.app.domain.User;
+import com.datahipster.app.model.User;
 import io.github.jhipster.config.JHipsterProperties;
 import org.junit.Before;
 import org.junit.Test;

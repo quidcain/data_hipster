@@ -26,7 +26,7 @@ export class QueryPage extends React.Component<IQueryProps, IQueryState> {
   componentWillUnmount() {}
 
   handleValidSubmit = (event, values) => {
-    this.props.runQuery(values.currentPassword, values.newPassword);
+    this.props.runQuery(values.query, values.dataSourceId);
   };
 
   render() {
@@ -36,44 +36,19 @@ export class QueryPage extends React.Component<IQueryProps, IQueryState> {
       <div>
         <Row className="justify-content-center">
           <Col md="8">
-            <h2 id="password-title">Password for {account.login}</h2>
+            <h2 id="password-title">Get data</h2>
             <AvForm id="password-form" onValidSubmit={this.handleValidSubmit}>
               <AvField
-                name="currentPassword"
-                label="Current password"
-                placeholder="Current password"
-                type="password"
+                name="query"
+                label="Query"
+                placeholder="type your query here"
+                type="text"
                 validate={{
-                  required: { value: true, errorMessage: 'Your password is required.' }
-                }}
-              />
-
-              <AvField
-                name="confirmPassword"
-                label="New password confirmation"
-                placeholder="Confirm the new password"
-                type="password"
-                validate={{
-                  required: {
-                    value: true,
-                    errorMessage: 'Your confirmation password is required.'
-                  },
-                  minLength: {
-                    value: 4,
-                    errorMessage: 'Your confirmation password is required to be at least 4 characters.'
-                  },
-                  maxLength: {
-                    value: 50,
-                    errorMessage: 'Your confirmation password cannot be longer than 50 characters.'
-                  },
-                  match: {
-                    value: 'newPassword',
-                    errorMessage: 'The password and its confirmation do not match!'
-                  }
+                  required: { value: true, errorMessage: 'Your query is required.' }
                 }}
               />
               <Button color="success" type="submit">
-                Save
+                Start Query
               </Button>
             </AvForm>
           </Col>

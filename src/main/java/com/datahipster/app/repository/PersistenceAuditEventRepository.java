@@ -1,6 +1,6 @@
 package com.datahipster.app.repository;
 
-import com.datahipster.app.domain.PersistentAuditEvent;
+import com.datahipster.app.model.PersistentAuditEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

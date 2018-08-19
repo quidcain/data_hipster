@@ -1,6 +1,6 @@
 package com.datahipster.app.security;
 
-import com.datahipster.app.domain.User;
+import com.datahipster.app.model.User;
 import com.datahipster.app.repository.UserRepository;
 import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
 import org.slf4j.Logger;

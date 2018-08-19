@@ -1,7 +1,7 @@
 package com.datahipster.app.service;
 
-import com.datahipster.app.domain.Authority;
-import com.datahipster.app.domain.User;
+import com.datahipster.app.model.Authority;
+import com.datahipster.app.model.User;
 import com.datahipster.app.repository.AuthorityRepository;
 import com.datahipster.app.config.Constants;
 import com.datahipster.app.repository.UserRepository;

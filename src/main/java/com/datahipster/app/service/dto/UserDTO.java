@@ -2,8 +2,8 @@ package com.datahipster.app.service.dto;
 
 import com.datahipster.app.config.Constants;
 
-import com.datahipster.app.domain.Authority;
-import com.datahipster.app.domain.User;
+import com.datahipster.app.model.Authority;
+import com.datahipster.app.model.User;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
