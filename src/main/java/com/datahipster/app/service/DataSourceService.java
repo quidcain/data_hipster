@@ -1,11 +1,11 @@
 package com.datahipster.app.service;
 
+import com.datahipster.app.repository.OnePlaceDao;
 import com.datahipster.app.service.dto.RowCallBackHandler;
 import com.datahipster.app.web.rest.json.AWSDataSource;
 import com.datahipster.app.web.rest.json.AWSField;
 import com.datahipster.app.web.rest.json.AWSSchema;
 import com.datahipster.app.web.rest.json.AWSTable;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import schemacrawler.schema.Catalog;
@@ -24,9 +24,10 @@ import java.util.List;
 import java.util.Properties;
 
 @Service
-@Slf4j
 public class DataSourceService {
 
+    @Autowired
+    private OnePlaceDao onePlaceDao;
 
     public Connection connect(AWSDataSource request){
         Connection conn = null;
@@ -64,6 +65,7 @@ public class DataSourceService {
 
     public List<AWSSchema> listSchemas(AWSDataSource dataSource) throws SchemaCrawlerException {
         List<AWSSchema> schemas = new ArrayList<>();
+        connect(dataSource);
         final SchemaCrawlerOptionsBuilder optionsBuilder = new SchemaCrawlerOptionsBuilder();
         optionsBuilder.withSchemaInfoLevel(SchemaInfoLevelBuilder.standard());
         final SchemaCrawlerOptions options = optionsBuilder.toOptions();
@@ -106,7 +108,7 @@ public class DataSourceService {
                 result = resultSet.getInt(1);
             }
         }catch (Exception e){
-            log.warn("Failed to connect to "+request.getHostname(),e);
+           e.printStackTrace();
             return false;
         }finally {
             try {

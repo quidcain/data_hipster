@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
+import { FAILURE, REQUEST, SUCCESS } from 'app/shared/reducers/action-type.util';
 
 export const ACTION_TYPES = {
   RUN_QUERY: 'account/UPDATE_PASSWORD'
@@ -45,11 +45,11 @@ export default (state: QueryState = initialState, action): QueryState => {
 };
 
 // Actions
-const apiUrl = 'api/account';
+const apiUrl = 'api/query';
 
 export const runQuery = (query, dataSourceId) => ({
   type: ACTION_TYPES.RUN_QUERY,
-  payload: axios.post(`${apiUrl}/query`, { query, dataSourceId }),
+  payload: axios.get(apiUrl, { query, dataSourceId }),
   meta: {
     successMessage: '<strong>Query executed</strong>',
     errorMessage: '<strong>Error Running Query</strong> no data will be returned.'
