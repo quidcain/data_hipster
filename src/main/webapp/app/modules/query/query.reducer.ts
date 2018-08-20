@@ -49,7 +49,7 @@ const apiUrl = 'api/query';
 
 export const runQuery = (query, dataSourceId) => ({
   type: ACTION_TYPES.RUN_QUERY,
-  payload: axios.get(apiUrl, { query, dataSourceId }),
+  payload: axios.get(apiUrl),
   meta: {
     successMessage: '<strong>Query executed</strong>',
     errorMessage: '<strong>Error Running Query</strong> no data will be returned.'

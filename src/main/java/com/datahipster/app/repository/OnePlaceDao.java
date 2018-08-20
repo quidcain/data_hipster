@@ -55,15 +55,8 @@ public class OnePlaceDao {
         return dataSource;
     }
 
-    public String getDataSourcePrefix(String engine){
-        return jdbcTemplate.queryForObject("SELECT prefix FROM connection_prefix where engine = ?",String.class,engine);
+    public String getDataSourceConstant(String engine, String key){
+        return jdbcTemplate.queryForObject("SELECT value FROM data_source_constants where engine = ? and pointer = ?",String.class,engine,key);
     }
 
-    public String getDataSourceDriver(String engine){
-        return jdbcTemplate.queryForObject("SELECT driver FROM connection_driver where engine = ?",String.class,engine);
-    }
-
-    public String getSwitchSchemaStatement(String engine){
-        return jdbcTemplate.queryForObject("SELECT value FROM connection_current_schema where engine = ?",String.class,engine);
-    }
 }

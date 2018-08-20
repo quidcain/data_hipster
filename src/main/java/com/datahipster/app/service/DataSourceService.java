@@ -1,5 +1,6 @@
 package com.datahipster.app.service;
 
+import com.datahipster.app.DataHipsterConstants;
 import com.datahipster.app.repository.OnePlaceDao;
 import com.datahipster.app.service.dto.RowCallBackHandler;
 import com.datahipster.app.web.rest.json.AWSDataSource;
@@ -53,7 +54,7 @@ public class DataSourceService {
 
     private String createJdbcUrl(AWSDataSource dataSource){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(onePlaceDao.getDataSourcePrefix(dataSource.getEngine()));
+        stringBuilder.append(onePlaceDao.getDataSourceConstant(dataSource.getEngine(),DataHipsterConstants.CONNECTION_PREFIX));
         stringBuilder.append(dataSource.getHostname());
         stringBuilder.append(":");
         stringBuilder.append(dataSource.getPort());
