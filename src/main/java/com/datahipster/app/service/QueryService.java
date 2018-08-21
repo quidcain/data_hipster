@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class QueryService {
@@ -18,10 +19,10 @@ public class QueryService {
     @Autowired
     private DataSourceService dataSourceService;
 
-    public RowCallBackHandler query(Query queryRequest){
+    public List<Map<String,Object>> query(Query queryRequest){
         AWSDataSource dataSource = dataSourceService.getDataSourceById(queryRequest.getChunk().getDataSourceId());
         String queryString = generateQueryString(queryRequest);
-        return dataSourceService.executeQuery(dataSource,queryString);
+        return dataSourceService.executeQuery(dataSource,queryString).getDataResultSetContents();
     }
 
     private String generateQueryString(Query queryRequest){

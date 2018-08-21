@@ -1,6 +1,8 @@
 package com.datahipster.app.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
 
 import org.springframework.context.annotation.Bean;
@@ -41,6 +43,13 @@ public class JacksonConfiguration {
     @Bean
     ConstraintViolationProblemModule constraintViolationProblemModule() {
         return new ConstraintViolationProblemModule();
+    }
+
+    @Bean
+    public ObjectMapper mapper(){
+        ObjectMapper mapper = new ObjectMapper()
+            .registerModule(new JavaTimeModule());
+        return mapper;
     }
 
 }
