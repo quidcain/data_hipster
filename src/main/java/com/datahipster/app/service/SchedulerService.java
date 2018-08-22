@@ -1,6 +1,9 @@
 package com.datahipster.app.service;
 
 import com.datahipster.app.DataHipsterConstants;
+import com.datahipster.app.repository.QueryDao;
+import com.datahipster.app.security.SecurityUtils;
+import com.datahipster.app.web.rest.json.Query;
 import com.datahipster.app.web.rest.json.SchedulerRequest;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -15,6 +18,7 @@ import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class SchedulerService {
@@ -22,9 +26,14 @@ public class SchedulerService {
     @Autowired
     private Scheduler scheduler;
 
+    @Autowired
+    private QueryDao queryDao;
+
     public void scheduleJob(Class jobClass, SchedulerRequest request) throws SchedulerException {
-        JobDetailFactoryBean jobDetail = createJobDetail(jobClass, getJobDataMap(request));
+        int queryId = saveQuery(request);
+        JobDetailFactoryBean jobDetail = createJobDetail(jobClass, getJobDataMap(queryId));
         CronTriggerFactoryBean triggerBean = null;
+
         try {
             triggerBean = createCronTrigger(jobDetail.getObject(),generateCronExpression(request));
             scheduler.scheduleJob(jobDetail.getObject(), triggerBean.getObject());
@@ -34,9 +43,18 @@ public class SchedulerService {
 
     }
 
-    private Map<String,String> getJobDataMap(SchedulerRequest schedulerRequest){
-        Map<String,String> jobDataMap = new HashMap<>();
+    private int saveQuery(SchedulerRequest request){
+        Query query = new Query();
+        query.setUserId(SecurityUtils.getCurrentUserId());
+        query.setName("placeholder");
+        query.setDataSourceId(1);
+        query.setQueryString(request.getQuery());
+        return queryDao.saveQuery(query);
+    }
 
+    private Map<String,String> getJobDataMap(int queryId){
+        Map<String,String> jobDataMap = new HashMap<>();
+        jobDataMap.put("queryId",Integer.toString(queryId));
         return jobDataMap;
     }
 
@@ -75,6 +93,7 @@ public class SchedulerService {
                     .replace("{hour}",Integer.toString(localDateTime.getHour())
                     .replace("{dayArray}",dayArrayBuilder.toString()));
                 break;
+
             case DataHipsterConstants.MONTH:
                 cron = "0 {minute} {hour} ? 1/{month} {day}#{week} *"
                     .replace("{minute}",Integer.toString(localDateTime.getMinute()))

@@ -30,7 +30,7 @@ public class QueryDao {
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement("INSERT INTO query(user_id,query,name,data_source_id) " +
-                "VALUES(?,?,?,?",
+                "VALUES(?,?,?,?)",
                 Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, query.getUserId());
             ps.setString(2, query.getQueryString());
@@ -40,6 +40,18 @@ public class QueryDao {
         }, holder);
 
         return holder.getKey().intValue();
+    }
+
+    public Query getQueryById(int id){
+        return jdbcTemplate.queryForObject("SELECT * FROM query where id = ?", (resultSet, i) -> {
+            Query query = new Query();
+            query.setUserId(resultSet.getInt("user_id"));
+            query.setQueryString(resultSet.getString("query"));
+            query.setName(resultSet.getString("name"));
+            query.setDataSourceId(resultSet.getInt("data_source_id"));
+
+            return query;
+        },id);
     }
 
 
