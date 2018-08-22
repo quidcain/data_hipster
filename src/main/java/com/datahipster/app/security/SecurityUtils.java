@@ -1,5 +1,7 @@
 package com.datahipster.app.security;
 
+import com.datahipster.app.model.User;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -73,4 +75,22 @@ public final class SecurityUtils {
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(authority)))
             .orElse(false);
     }
+
+    public static Integer getCurrentUserId() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        String id = null;
+        if (authentication != null)
+            if (authentication.getPrincipal() instanceof UserDetails)
+                id = ((UserDetails) authentication.getPrincipal()).getUsername();
+            else if (authentication.getPrincipal() instanceof String)
+                id = (String) authentication.getPrincipal();
+        try {
+            return Integer.valueOf(id != null ? id : "1"); //anonymoususer
+        } catch (NumberFormatException e) {
+            return 1;
+        }
+    }
+
+// continue with the user
 }
