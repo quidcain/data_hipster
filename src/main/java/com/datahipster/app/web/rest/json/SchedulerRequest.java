@@ -12,9 +12,9 @@ public class SchedulerRequest {
     private String query;
     @JsonProperty("date_source_id")
     private int dataSourceId;
-    @JsonProperty("time_measure")
+    @JsonProperty("timeMeasure")
     private String timeMeasure;
-    @JsonProperty("frequency_value")
+    @JsonProperty("frequencyValue")
     private Integer frequencyValue;
     @JsonProperty("start_time")
     private LocalDateTime startTime;

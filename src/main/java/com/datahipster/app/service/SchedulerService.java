@@ -61,7 +61,7 @@ public class SchedulerService {
     private String generateCronExpression(SchedulerRequest request){
         LocalDateTime localDateTime = request.getStartTime();
         String cron = null;
-        switch (request.getTimeMeasure()){
+        switch (request.getTimeMeasure().toLowerCase()){
             case DataHipsterConstants.MINUTE:
                 cron = "0 0/{minute} * 1/1 * ? *"
                     .replace("{minute}",Integer.toString(request.getFrequencyValue()));

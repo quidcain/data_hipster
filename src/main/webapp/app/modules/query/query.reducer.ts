@@ -3,7 +3,8 @@ import axios from 'axios';
 import { FAILURE, REQUEST, SUCCESS } from 'app/shared/reducers/action-type.util';
 
 export const ACTION_TYPES = {
-  RUN_QUERY: 'account/UPDATE_PASSWORD'
+  RUN_QUERY: 'api/query',
+  SCHEDULE_QUERY: 'api/schedule'
 };
 
 const initialState = {
@@ -44,14 +45,20 @@ export default (state: QueryState = initialState, action): QueryState => {
   }
 };
 
-// Actions
-const apiUrl = 'api/query';
-
 export const runQuery = (query, dataSourceId) => ({
   type: ACTION_TYPES.RUN_QUERY,
-  payload: axios.get(apiUrl),
+  payload: axios.get('api/query'),
   meta: {
     successMessage: '<strong>Query executed</strong>',
     errorMessage: '<strong>Error Running Query</strong> no data will be returned.'
+  }
+});
+
+export const scheduleQuery = (timeMeasure, frequencyValue) => ({
+  type: ACTION_TYPES.SCHEDULE_QUERY,
+  payload: axios.put('api/schedule', { timeMeasure, frequencyValue }),
+  meta: {
+    successMessage: '<strong>Query scheduled</strong>',
+    errorMessage: '<strong>Error Scheduling Query</strong> no schedule was created.'
   }
 });
