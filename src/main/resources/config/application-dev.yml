@@ -20,6 +20,35 @@ logging:
         com.datahipster.app: DEBUG
 
 spring:
+    quartz:
+      job-store-type: jdbc
+    jdbc:
+      initialize-schema: never
+    properties:
+      scheduler:
+        instanceName : MyClusteredScheduler
+        instanceId : AUTO
+      threadPool:
+        class : org.quartz.simpl.SimpleThreadPool
+        threadCount : 25
+        threadPriority : 5
+      jobStore:
+        misfireThreshold : 60000
+        class : org.quartz.impl.jdbcjobstore.JobStoreTX
+        driverDelegateClass : org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+        useProperties : false
+        dataSource : myDS
+        tablePrefix : QRTZ_
+        isClustered : true
+        clusterCheckinInterval : 20000
+      dataSource:
+        myDS:
+          driver : com.mysql.jdbc.Driver
+          URL : jdbc:mysql://localhost:3306/datahipster
+          user : root
+          password : ZfQx3wek
+          maxConnections : 5
+          validationQuery : select 1
     profiles:
         active: dev
         include: swagger
