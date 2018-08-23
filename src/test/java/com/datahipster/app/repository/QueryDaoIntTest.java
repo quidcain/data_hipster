@@ -31,7 +31,7 @@ public class QueryDaoIntTest {
         Query query = new Query();
         query.setDataSourceId(1);
         query.setName("test name");
-        query.setQueryString("test query");
+        query.setQuery("test query");
         query.setUserId(4);
         int id = queryDao.saveQuery(query);
         System.out.println("Id returned from database was "+id);

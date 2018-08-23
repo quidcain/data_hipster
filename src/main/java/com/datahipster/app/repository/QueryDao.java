@@ -33,7 +33,7 @@ public class QueryDao {
                 "VALUES(?,?,?,?)",
                 Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, query.getUserId());
-            ps.setString(2, query.getQueryString());
+            ps.setString(2, query.getQuery());
             ps.setString(3, query.getName());
             ps.setInt(4, query.getDataSourceId());
             return ps;
@@ -46,7 +46,7 @@ public class QueryDao {
         return jdbcTemplate.queryForObject("SELECT * FROM query where id = ?", (resultSet, i) -> {
             Query query = new Query();
             query.setUserId(resultSet.getInt("user_id"));
-            query.setQueryString(resultSet.getString("query"));
+            query.setQuery(resultSet.getString("query"));
             query.setName(resultSet.getString("name"));
             query.setDataSourceId(resultSet.getInt("data_source_id"));
 

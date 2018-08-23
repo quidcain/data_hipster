@@ -6,7 +6,7 @@ import { Row, Col, Button } from 'reactstrap';
 
 import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
-import { runQuery } from './query.reducer';
+import { runQuery, scheduleQuery } from './query.reducer';
 
 export interface IQueryProps extends StateProps, DispatchProps {}
 
@@ -26,7 +26,11 @@ export class QueryPage extends React.Component<IQueryProps, IQueryState> {
   componentWillUnmount() {}
 
   handleValidSubmit = (event, values) => {
-    this.props.runQuery(values.query, values.dataSourceId);
+    this.props.runQuery(values.query);
+  };
+
+  handleScheduleSubmit = (event, errors, values) => {
+    this.props.scheduleQuery(values.timeMeasure, values.frequencyValue);
   };
 
   render() {
@@ -48,7 +52,26 @@ export class QueryPage extends React.Component<IQueryProps, IQueryState> {
                 }}
               />
               <Button color="success" type="submit">
-                Start Query
+                Preview Data (100 rows)
+              </Button>
+            </AvForm>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={{ size: 6, order: 2, offset: 2 }}>
+            <AvForm id="schedule-form" onSubmit={this.handleScheduleSubmit}>
+              <h2 id="schedule-title">Schedule</h2>
+              <AvField type="select" name="timeMeasure" label="Time Scale" helpMessage="Every..">
+                <option>Minute</option>
+                <option>Hour</option>
+                <option>Day</option>
+                <option>Week</option>
+                <option>Month</option>
+                <option>Year</option>
+              </AvField>
+              <AvField name="frequencyValue" label="frequency" />
+              <Button color="success" type="submit">
+                Schedule Query
               </Button>
             </AvForm>
           </Col>
@@ -63,7 +86,7 @@ const mapStateToProps = ({ authentication }: IRootState) => ({
   isAuthenticated: authentication.isAuthenticated
 });
 
-const mapDispatchToProps = { getSession, runQuery };
+const mapDispatchToProps = { getSession, runQuery, scheduleQuery };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

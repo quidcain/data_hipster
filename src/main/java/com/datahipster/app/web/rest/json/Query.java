@@ -3,17 +3,17 @@ package com.datahipster.app.web.rest.json;
 public class Query {
 
 
-    private String queryString;
+    private String query;
     private int userId;
     private String name;
     private int dataSourceId;
 
-    public String getQueryString() {
-        return queryString;
+    public String getQuery() {
+        return query;
     }
 
-    public void setQueryString(String queryString) {
-        this.queryString = queryString;
+    public void setQuery(String query) {
+        this.query = query;
     }
 
     public int getUserId() {

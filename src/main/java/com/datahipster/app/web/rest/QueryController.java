@@ -20,30 +20,22 @@ import java.util.Map;
 @RequestMapping("/api")
 public class QueryController {
 
-    @Autowired
-    private DataSourceService dataSourceService;
 
     @Autowired
     private QueryService queryService;
 
     @Autowired
-    private OnePlaceDao onePlaceDao;
-
-    @Autowired
     private SchedulerService schedulerService;
 
-    public QueryController(DataSourceService dataSourceService, QueryService queryService, OnePlaceDao onePlaceDao,
-                           SchedulerService schedulerService) {
-        this.dataSourceService = dataSourceService;
+    public QueryController(QueryService queryService, SchedulerService schedulerService) {
         this.queryService = queryService;
-        this.onePlaceDao = onePlaceDao;
         this.schedulerService = schedulerService;
     }
 
     @PostMapping("/query")
     @Timed
     public List<Map<String,Object>> runQuery(@RequestBody Query query) {
-        return queryService.query(query);
+        return queryService.query(query.getQuery());
     }
 
     @PutMapping("/schedule")

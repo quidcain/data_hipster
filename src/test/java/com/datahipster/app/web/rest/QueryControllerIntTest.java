@@ -41,13 +41,7 @@ public class QueryControllerIntTest {
     private MockMvc restLogsMockMvc;
 
     @Autowired
-    private DataSourceService dataSourceService;
-
-    @Autowired
     private QueryService queryService;
-
-    @Autowired
-    private OnePlaceDao onePlaceDao;
 
     @Autowired
     private SchedulerService schedulerService;
@@ -56,7 +50,7 @@ public class QueryControllerIntTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
-        QueryController queryController = new QueryController(dataSourceService,queryService,onePlaceDao,schedulerService);
+        QueryController queryController = new QueryController(queryService,schedulerService);
         this.restLogsMockMvc = MockMvcBuilders
             .standaloneSetup(queryController)
             .build();

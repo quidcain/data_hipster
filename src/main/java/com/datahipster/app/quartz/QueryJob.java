@@ -28,8 +28,8 @@ public class QueryJob implements Job {
         Query query = queryDao.getQueryById(queryId);
         AWSDataSource dataSource =  dataSourceService.getDataSourceById(1);
         dataSourceService.connect(dataSource);
-        RowCallbackHandler handler = dataSourceService.executeQuery(dataSource,query.getQueryString());
-        log.info("Query:"+query.getQueryString()+" returned "+((RowCallBackHandler) handler).getDataResultSetContents().size());
+        RowCallbackHandler handler = dataSourceService.executeQuery(dataSource,query.getQuery());
+        log.info("Query:"+query.getQuery()+" returned "+((RowCallBackHandler) handler).getDataResultSetContents().size());
     }
 
 
