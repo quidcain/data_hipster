@@ -22,6 +22,7 @@ logging:
 spring:
     quartz:
       job-store-type: jdbc
+      enabled: true
     jdbc:
       initialize-schema: never
     properties:
@@ -44,9 +45,9 @@ spring:
       dataSource:
         myDS:
           driver : com.mysql.jdbc.Driver
-          URL : jdbc:mysql://localhost:3306/datahipster
-          user : root
-          password : ZfQx3wek
+          URL : jdbc:mysql://aa1xg8p3ml73g0.cnblpzhyptco.eu-west-1.rds.amazonaws.com:3306/datahipster?useUnicode=true&useSSL=false
+          user : datahipster
+          password : fsyshz*m123
           maxConnections : 5
           validationQuery : select 1
     profiles:
@@ -61,9 +62,9 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/datahipster?useUnicode=true&characterEncoding=utf8&useSSL=false
-        username: root
-        password: ZfQx3wek
+        url: jdbc:mysql://aa1xg8p3ml73g0.cnblpzhyptco.eu-west-1.rds.amazonaws.com:3306/datahipster?useUnicode=true&useSSL=false
+        username: datahipster
+        password: fsyshz*m123
         hikari:
             data-source-properties:
                 cachePrepStmts: true
