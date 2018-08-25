@@ -1,23 +1,25 @@
 package com.datahipster.app.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.quartz.SchedulerFactoryBeanCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import javax.sql.DataSource;
 
 @Configuration
 public class QuartzConfiguration {
+    DataSource dataSource;
 
-
+    @Autowired
+    public QuartzConfiguration(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Bean
-    public SchedulerFactoryBean schedulerFactoryBean(DataSource dataSource) {
-        SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
-        schedulerFactoryBean.setConfigLocation(new ClassPathResource("quartz.properties"));
-        schedulerFactoryBean.setDataSource(dataSource);
-        return schedulerFactoryBean;
+    public SchedulerFactoryBeanCustomizer schedulerFactoryBeanCustomizer()
+    {
+        return bean -> bean.setDataSource(dataSource);
     }
 }

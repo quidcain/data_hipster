@@ -30,11 +30,6 @@ public class SchedulerService {
     @Autowired
     private QueryDao queryDao;
 
-    @PostConstruct
-    public void init() throws SchedulerException {
-        scheduler.start();
-    }
-
     public void scheduleJob(Class jobClass, SchedulerRequest request) throws SchedulerException {
         int queryId = saveQuery(request);
         JobDetailFactoryBean jobDetail = createJobDetail(jobClass, getJobDataMap(queryId));
@@ -43,7 +38,7 @@ public class SchedulerService {
         try {
             triggerBean = createCronTrigger(jobDetail.getObject(),generateCronExpression(request));
             scheduler.scheduleJob(jobDetail.getObject(), triggerBean.getObject());
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
