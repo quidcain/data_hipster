@@ -42,7 +42,7 @@ public class DataSourceService {
             ex.printStackTrace();
         }
 
-        if(checkDataSourceConnection(conn,request)){
+        if(checkDataSourceConnection(conn)){
             request.setConnection(conn);
         }
         return conn;
@@ -99,7 +99,7 @@ public class DataSourceService {
         return schemas;
     }
 
-    private boolean checkDataSourceConnection(Connection connection, AWSDataSource request){
+    public boolean checkDataSourceConnection(Connection connection){
         int result = 0;
         CallableStatement cs = null;
         try{
