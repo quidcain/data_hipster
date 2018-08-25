@@ -20,36 +20,6 @@ logging:
         com.datahipster.app: DEBUG
 
 spring:
-    quartz:
-      job-store-type: jdbc
-      enabled: true
-    jdbc:
-      initialize-schema: never
-    properties:
-      scheduler:
-        instanceName : MyClusteredScheduler
-        instanceId : AUTO
-      threadPool:
-        class : org.quartz.simpl.SimpleThreadPool
-        threadCount : 25
-        threadPriority : 5
-      jobStore:
-        misfireThreshold : 60000
-        class : org.quartz.impl.jdbcjobstore.JobStoreTX
-        driverDelegateClass : org.quartz.impl.jdbcjobstore.StdJDBCDelegate
-        useProperties : false
-        dataSource : myDS
-        tablePrefix : QRTZ_
-        isClustered : false
-        clusterCheckinInterval : 20000
-      dataSource:
-        myDS:
-          driver : com.mysql.jdbc.Driver
-          URL : jdbc:mysql://aa1xg8p3ml73g0.cnblpzhyptco.eu-west-1.rds.amazonaws.com:3306/datahipster?useUnicode=true&useSSL=false
-          user : datahipster
-          password : fsyshz*m123
-          maxConnections : 5
-          validationQuery : select 1
     profiles:
         active: dev
         include: swagger
@@ -62,9 +32,9 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://aa1xg8p3ml73g0.cnblpzhyptco.eu-west-1.rds.amazonaws.com:3306/datahipster?useUnicode=true&useSSL=false
-        username: datahipster
-        password: fsyshz*m123
+        url: jdbc:mysql://localhost:3306/datahipster?useUnicode=true&useSSL=false
+        username: root
+        password: ZfQx3wek
         hikari:
             data-source-properties:
                 cachePrepStmts: true
