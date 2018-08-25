@@ -20,6 +20,8 @@ logging:
         com.datahipster.app: DEBUG
 
 spring:
+    quartz:
+      job-store-type: jdbc
     profiles:
         active: dev
         include: swagger
@@ -32,7 +34,7 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/datahipster?useUnicode=true&useSSL=false
+        url: jdbc:mysql://localhost:3306/datahipster?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: root
         password: ZfQx3wek
         hikari:

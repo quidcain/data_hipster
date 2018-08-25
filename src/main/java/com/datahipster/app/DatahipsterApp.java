@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @SpringBootApplication
-@EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
+@EnableConfigurationProperties({ApplicationProperties.class})
 public class DatahipsterApp {
 
     private static final Logger log = LoggerFactory.getLogger(DatahipsterApp.class);
