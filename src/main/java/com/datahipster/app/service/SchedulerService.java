@@ -14,6 +14,7 @@ import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -28,6 +29,11 @@ public class SchedulerService {
 
     @Autowired
     private QueryDao queryDao;
+
+    @PostConstruct
+    public void init() throws SchedulerException {
+        scheduler.start();
+    }
 
     public void scheduleJob(Class jobClass, SchedulerRequest request) throws SchedulerException {
         int queryId = saveQuery(request);

@@ -40,7 +40,7 @@ spring:
         useProperties : false
         dataSource : myDS
         tablePrefix : QRTZ_
-        isClustered : true
+        isClustered : false
         clusterCheckinInterval : 20000
       dataSource:
         myDS:
