@@ -20,6 +20,35 @@ logging:
         io.github.jhipster: INFO
 
 spring:
+    quartz:
+          job-store-type: jdbc
+    jdbc:
+          initialize-schema: never
+    properties:
+      scheduler:
+            instanceName : MyClusteredScheduler
+            instanceId : AUTO
+      threadPool:
+            class : org.quartz.simpl.SimpleThreadPool
+            threadCount : 25
+            threadPriority : 5
+      jobStore:
+            misfireThreshold : 60000
+            class : org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass : org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            useProperties : false
+            dataSource : myDS
+            tablePrefix : QRTZ_
+            isClustered : true
+            clusterCheckinInterval : 20000
+      dataSource:
+        myDS:
+          driver : com.mysql.jdbc.Driver
+          URL : jdbc:mysql://aa1xg8p3ml73g0.cnblpzhyptco.eu-west-1.rds.amazonaws.com:3306/datahipster?useUnicode=true&useSSL=false
+          user : datahipster
+          password : fsyshz*m123
+          maxConnections : 5
+          validationQuery : select 1
     devtools:
         restart:
             enabled: false
@@ -27,9 +56,9 @@ spring:
             enabled: false
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/datahipster?useUnicode=true&characterEncoding=utf8&useSSL=false
-        username: root
-        password:
+        url: jdbc:mysql://aa1xg8p3ml73g0.cnblpzhyptco.eu-west-1.rds.amazonaws.com:3306/datahipster?useUnicode=true&useSSL=false
+        username: datahipster
+        password: fsyshz*m123
         hikari:
             data-source-properties:
                 cachePrepStmts: true
