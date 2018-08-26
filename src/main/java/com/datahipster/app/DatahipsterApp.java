@@ -17,6 +17,8 @@ import javax.annotation.PostConstruct;
 import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
+import java.util.TimeZone;
 
 @SpringBootApplication
 @EnableConfigurationProperties({ApplicationProperties.class})
@@ -48,6 +50,10 @@ public class DatahipsterApp {
             log.error("You have misconfigured your application! It should not " +
                 "run with both the 'dev' and 'cloud' profiles at the same time.");
         }
+
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));   // It will set UTC timezone
+        System.out.println("Spring boot application running in UTC timezone :"+new Date());   // It will print UTC timezone
+
     }
 
     /**

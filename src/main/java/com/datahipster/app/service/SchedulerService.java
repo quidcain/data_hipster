@@ -12,14 +12,13 @@ import org.quartz.SimpleTrigger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
+import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class SchedulerService {
@@ -33,10 +32,10 @@ public class SchedulerService {
     public void scheduleJob(Class jobClass, SchedulerRequest request) throws SchedulerException {
         int queryId = saveQuery(request);
         JobDetailFactoryBean jobDetail = createJobDetail(jobClass, getJobDataMap(queryId));
-        CronTriggerFactoryBean triggerBean = null;
+        SimpleTriggerFactoryBean triggerBean = null;
 
         try {
-            triggerBean = createCronTrigger(jobDetail.getObject(),generateCronExpression(request));
+            triggerBean = createSimpleTrigger(jobDetail.getObject());
             scheduler.scheduleJob(jobDetail.getObject(), triggerBean.getObject());
         } catch (Exception e) {
             e.printStackTrace();
@@ -116,6 +115,15 @@ public class SchedulerService {
         factoryBean.setName("TriggerName");
         factoryBean.afterPropertiesSet();
         return factoryBean;
+    }
+
+    private SimpleTriggerFactoryBean createSimpleTrigger(JobDetail jobDetail){
+        SimpleTriggerFactoryBean simpleTriggerFactoryBean = new SimpleTriggerFactoryBean();
+        simpleTriggerFactoryBean.setName("SimpleTriggerTest");
+        simpleTriggerFactoryBean.setJobDetail(jobDetail);
+        simpleTriggerFactoryBean.setRepeatInterval(2000);
+        simpleTriggerFactoryBean.afterPropertiesSet();
+        return simpleTriggerFactoryBean;
     }
 
     private JobDetailFactoryBean createJobDetail(Class jobClass,Map<String,String> params) {

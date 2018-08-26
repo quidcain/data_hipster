@@ -18,6 +18,7 @@ logging:
         ROOT: DEBUG
         io.github.jhipster: DEBUG
         com.datahipster.app: DEBUG
+        org.quartz: INFO
 
 spring:
     quartz:

@@ -1,13 +1,14 @@
-package com.datahipster.app.config;
+package com.oneworld.api.config;
 
 import com.datahipster.app.quartz.AutowiringSpringBeanJobFactory;
 import org.quartz.Scheduler;
 import org.quartz.spi.JobFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
@@ -15,7 +16,11 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * Created by david on 2015-01-20.
+ */
 @Configuration
+@ConditionalOnProperty(name = "quartz.enabled")
 public class QuartzConfiguration {
 
     @Bean
@@ -26,8 +31,7 @@ public class QuartzConfiguration {
     }
 
     @Bean
-    @Primary
-    public SchedulerFactoryBean schedulerFactoryBean( DataSource dataSource, JobFactory jobFactory) throws Exception {
+    public SchedulerFactoryBean schedulerFactoryBean(DataSource dataSource, JobFactory jobFactory) throws Exception {
         SchedulerFactoryBean factory = new SchedulerFactoryBean();
         factory.setOverwriteExistingJobs(true);
         factory.setDataSource(dataSource);
@@ -36,17 +40,11 @@ public class QuartzConfiguration {
         factory.setQuartzProperties(quartzProperties());
         factory.afterPropertiesSet();
 
-
-        return factory;
-    }
-
-    @Bean
-    public Scheduler getScheduler(SchedulerFactoryBean factoryBean, JobFactory jobFactory) throws Exception{
-        Scheduler scheduler = factoryBean.getScheduler();
+        Scheduler scheduler = factory.getScheduler();
         scheduler.setJobFactory(jobFactory);
 
         scheduler.start();
-        return scheduler;
+        return factory;
     }
 
     @Bean
@@ -56,4 +54,5 @@ public class QuartzConfiguration {
         propertiesFactoryBean.afterPropertiesSet();
         return propertiesFactoryBean.getObject();
     }
+
 }
