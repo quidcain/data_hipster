@@ -1,4 +1,4 @@
-package com.datahipster.app.web.rest.json;
+package com.datahipster.app.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;

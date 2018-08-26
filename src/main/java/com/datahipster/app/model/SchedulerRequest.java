@@ -1,4 +1,4 @@
-package com.datahipster.app.web.rest.json;
+package com.datahipster.app.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -22,6 +22,14 @@ public class SchedulerRequest {
     private List<List> daysOfWeek = new ArrayList<>();
     @JsonProperty("week_of_month")
     private int weekOfMonth;
+
+    public String getQueryType() {
+        return queryType;
+    }
+
+    public void setQueryType(String queryType) {
+        this.queryType = queryType;
+    }
 
     public String getQuery() {
         return query;

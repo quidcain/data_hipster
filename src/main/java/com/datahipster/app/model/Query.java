@@ -1,4 +1,4 @@
-package com.datahipster.app.web.rest.json;
+package com.datahipster.app.model;
 
 public class Query {
 

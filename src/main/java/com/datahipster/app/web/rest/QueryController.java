@@ -1,12 +1,13 @@
 package com.datahipster.app.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.datahipster.app.model.DrillQueryResult;
 import com.datahipster.app.quartz.QueryJob;
 import com.datahipster.app.service.QueryService;
 import com.datahipster.app.service.S3Service;
 import com.datahipster.app.service.SchedulerService;
-import com.datahipster.app.web.rest.json.Query;
-import com.datahipster.app.web.rest.json.SchedulerRequest;
+import com.datahipster.app.model.Query;
+import com.datahipster.app.model.SchedulerRequest;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,8 +41,8 @@ public class QueryController {
 
     @PostMapping("/query")
     @Timed
-    public List<Map<String,Object>> runQuery(@RequestBody Query query) {
-        return queryService.query(query.getQuery());
+    public DrillQueryResult runQuery(@RequestBody SchedulerRequest request) {
+        return queryService.query(request);
     }
 
     @PutMapping("/schedule")

@@ -1,21 +1,19 @@
 package com.datahipster.app.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.datahipster.app.quartz.QueryJob;
+import com.datahipster.app.model.DrillStorage;
 import com.datahipster.app.service.DataSourceService;
-import com.datahipster.app.service.QueryService;
-import com.datahipster.app.service.SchedulerService;
-import com.datahipster.app.web.rest.json.AWSDataSource;
-import com.datahipster.app.web.rest.json.Query;
-import com.datahipster.app.web.rest.json.SchedulerRequest;
-import org.quartz.SchedulerException;
+import com.datahipster.app.model.AWSDataSource;
+import com.datahipster.app.service.RetrofitService;
+import com.datahipster.app.service.retrofit.DrillService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import retrofit2.Call;
+import retrofit2.Response;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -23,22 +21,26 @@ import java.util.Map;
 public class DataSourceController {
 
     @Autowired
-    private DataSourceService dataSourceService;
+    private RetrofitService retrofitService;
 
-    @PostMapping("/test-datasource")
+    public DataSourceController(RetrofitService retrofitService) {
+        this.retrofitService = retrofitService;
+    }
+
+    @PostMapping("/datasource")
     @Timed
-    public Map<String,String> runQuery(@RequestBody AWSDataSource dataSource) {
-        Map<String,String> response = new HashMap<>();
-
-        Connection connection = dataSourceService.connect(dataSource);
-        boolean connected = dataSourceService.checkDataSourceConnection(connection);
-        if(connected){
-            response.put("result","success");
-        }else{
-            response.put("result","failure");
+    public Map<String,String> createDrillStorage(@RequestBody DrillStorage drillStorage) {
+        DrillService drillService = retrofitService.getDrillRetroFitService();
+        Map<String,String> ret;
+        try {
+            Call<Map<String,String>> call = drillService.createStorage(drillStorage.getName(),drillStorage);
+            Response<Map<String,String>> response = call.execute();
+            ret = response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
-
-        return response;
+        return ret;
     }
 
 }

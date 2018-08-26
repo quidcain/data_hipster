@@ -2,10 +2,14 @@ package com.datahipster.app.web.rest;
 
 import com.datahipster.app.DataHipsterConstants;
 import com.datahipster.app.DatahipsterApp;
+import com.datahipster.app.model.DrillStorage;
+import com.datahipster.app.model.DrillStorageConfig;
+import com.datahipster.app.model.SchedulerRequest;
 import com.datahipster.app.service.QueryService;
+import com.datahipster.app.service.RetrofitService;
 import com.datahipster.app.service.S3Service;
 import com.datahipster.app.service.SchedulerService;
-import com.datahipster.app.model.SchedulerRequest;
+import com.datahipster.app.service.retrofit.DrillService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,8 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -30,24 +33,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DatahipsterApp.class)
-public class QueryControllerIntTest {
+public class DataSourceControllerIntTest {
 
     private MockMvc restLogsMockMvc;
 
     @Autowired
-    private QueryService queryService;
-
-    @Autowired
-    private SchedulerService schedulerService;
-
-    @Autowired
-    private S3Service s3Service;
+    private RetrofitService retrofitService;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
-        QueryController queryController = new QueryController(queryService,schedulerService,s3Service);
+        DataSourceController queryController = new DataSourceController(retrofitService);
         this.restLogsMockMvc = MockMvcBuilders
             .standaloneSetup(queryController)
             .build();
@@ -55,13 +52,17 @@ public class QueryControllerIntTest {
 
     @Test
     public void createEveryMinute()throws Exception {
-        SchedulerRequest request = new SchedulerRequest();
-        request.setDataSourceId(1);
-        request.setTimeMeasure(DataHipsterConstants.MINUTE);
-        request.setFrequencyValue(1);
-        request.setQuery("select * from jhi_user");
-        restLogsMockMvc.perform(put("/api/schedule")
-        .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(request)))
+        DrillStorage drillStorage = new DrillStorage();
+        drillStorage.setName("localmysql");
+        DrillStorageConfig config = new DrillStorageConfig();
+        config.setEnabled(true);
+        config.setType("jdbc");
+        config.setWorkspaces("eamoworkspace");
+        config.setConnection("jdbc:mysql://localhost:3306");
+        drillStorage.setConfig(config);
+
+        restLogsMockMvc.perform(post("/api/datasource")
+        .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(drillStorage)))
         .andExpect(status().is(201));
     }
 

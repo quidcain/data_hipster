@@ -1,6 +1,6 @@
 package com.datahipster.app.repository;
 
-import com.datahipster.app.web.rest.json.AWSDataSource;
+import com.datahipster.app.model.AWSDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;

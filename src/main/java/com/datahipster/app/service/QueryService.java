@@ -1,11 +1,14 @@
 package com.datahipster.app.service;
 
-import com.datahipster.app.web.rest.json.AWSDataSource;
+import com.datahipster.app.model.DrillQueryResult;
+import com.datahipster.app.model.SchedulerRequest;
+import com.datahipster.app.service.retrofit.DrillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import retrofit2.Call;
+import retrofit2.Response;
 
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
 
 @Service
 public class QueryService {
@@ -13,9 +16,20 @@ public class QueryService {
     @Autowired
     private DataSourceService dataSourceService;
 
-    public List<Map<String,Object>> query(String queryRequest){
-        AWSDataSource dataSource = dataSourceService.getDataSourceById(1);
+    @Autowired
+    private RetrofitService retrofitService;
 
-        return dataSourceService.executeQuery(dataSource,queryRequest).getDataResultSetContents();
+    public DrillQueryResult query(SchedulerRequest request){
+        DrillService drillService = retrofitService.getDrillRetroFitService();
+        Call<DrillQueryResult> drillQuery = drillService.query(request);
+        DrillQueryResult result = null;
+        try {
+            Response<DrillQueryResult> response = drillQuery.execute();
+            result  = response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return result;
     }
 }
