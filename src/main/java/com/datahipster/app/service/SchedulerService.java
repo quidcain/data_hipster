@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,10 +33,10 @@ public class SchedulerService {
     public void scheduleJob(Class jobClass, SchedulerRequest request) throws SchedulerException {
         int queryId = saveQuery(request);
         JobDetailFactoryBean jobDetail = createJobDetail(jobClass, getJobDataMap(queryId));
-        SimpleTriggerFactoryBean triggerBean = null;
+        CronTriggerFactoryBean triggerBean = null;
 
         try {
-            triggerBean = createSimpleTrigger(jobDetail.getObject());
+            triggerBean = createCronTrigger(jobDetail.getObject(),generateCronExpression(request));
             scheduler.scheduleJob(jobDetail.getObject(), triggerBean.getObject());
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,17 +114,9 @@ public class SchedulerService {
         factoryBean.setCronExpression(cronExpression);
         factoryBean.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
         factoryBean.setName("TriggerName");
+        factoryBean.setStartTime(new Date());
         factoryBean.afterPropertiesSet();
         return factoryBean;
-    }
-
-    private SimpleTriggerFactoryBean createSimpleTrigger(JobDetail jobDetail){
-        SimpleTriggerFactoryBean simpleTriggerFactoryBean = new SimpleTriggerFactoryBean();
-        simpleTriggerFactoryBean.setName("SimpleTriggerTest");
-        simpleTriggerFactoryBean.setJobDetail(jobDetail);
-        simpleTriggerFactoryBean.setRepeatInterval(2000);
-        simpleTriggerFactoryBean.afterPropertiesSet();
-        return simpleTriggerFactoryBean;
     }
 
     private JobDetailFactoryBean createJobDetail(Class jobClass,Map<String,String> params) {
