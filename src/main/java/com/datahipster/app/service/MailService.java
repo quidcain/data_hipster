@@ -10,6 +10,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -40,6 +41,9 @@ public class MailService {
 
     private final SpringTemplateEngine templateEngine;
 
+    @Autowired
+    private EmailService emailService;
+
     public MailService(JHipsterProperties jHipsterProperties, JavaMailSender javaMailSender,
             MessageSource messageSource, SpringTemplateEngine templateEngine) {
 
@@ -53,16 +57,9 @@ public class MailService {
     public void sendEmail(String to, String subject, String content, boolean isMultipart, boolean isHtml) {
         log.debug("Send email[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
             isMultipart, isHtml, to, subject, content);
-
-        // Prepare message using a Spring helper
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try {
-            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, isMultipart, StandardCharsets.UTF_8.name());
-            message.setTo(to);
-            message.setFrom(jHipsterProperties.getMail().getFrom());
-            message.setSubject(subject);
-            message.setText(content, isHtml);
-            javaMailSender.send(mimeMessage);
+
+            emailService.sendEmail(to,subject,content);
             log.debug("Sent email to User '{}'", to);
         } catch (Exception e) {
             if (log.isDebugEnabled()) {

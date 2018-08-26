@@ -1,9 +1,8 @@
-package com.oneworld.api.config;
+package com.datahipster.app.config;
 
 import com.datahipster.app.quartz.AutowiringSpringBeanJobFactory;
 import org.quartz.Scheduler;
 import org.quartz.spi.JobFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
@@ -16,9 +15,6 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- * Created by david on 2015-01-20.
- */
 @Configuration
 @ConditionalOnProperty(name = "quartz.enabled")
 public class QuartzConfiguration {

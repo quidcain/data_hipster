@@ -56,6 +56,7 @@
     <logger name="liquibase" level="WARN"/>
     <logger name="LiquibaseSchemaResolver" level="INFO"/>
     <logger name="org.quartz" level="INFO"/>
+    <logger name="com.amazonaws" level="INFO"/>
     <logger name="sun.rmi.transport" level="WARN"/>
 
     <!-- https://logback.qos.ch/manual/configuration.html#shutdownHook and https://jira.qos.ch/browse/LOGBACK-1090 -->
