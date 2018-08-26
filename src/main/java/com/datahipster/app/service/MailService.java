@@ -35,8 +35,6 @@ public class MailService {
 
     private final JHipsterProperties jHipsterProperties;
 
-    private final JavaMailSender javaMailSender;
-
     private final MessageSource messageSource;
 
     private final SpringTemplateEngine templateEngine;
@@ -44,11 +42,10 @@ public class MailService {
     @Autowired
     private EmailService emailService;
 
-    public MailService(JHipsterProperties jHipsterProperties, JavaMailSender javaMailSender,
+    public MailService(JHipsterProperties jHipsterProperties,
             MessageSource messageSource, SpringTemplateEngine templateEngine) {
 
         this.jHipsterProperties = jHipsterProperties;
-        this.javaMailSender = javaMailSender;
         this.messageSource = messageSource;
         this.templateEngine = templateEngine;
     }
