@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Service
-public class OnePlaceDao {
+public class DataBaseConfigDao {
 
     private JdbcTemplate jdbcTemplate;
 

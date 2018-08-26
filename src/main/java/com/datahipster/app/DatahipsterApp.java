@@ -50,9 +50,9 @@ public class DatahipsterApp {
             log.error("You have misconfigured your application! It should not " +
                 "run with both the 'dev' and 'cloud' profiles at the same time.");
         }
-
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));   // It will set UTC timezone
-        System.out.println("Spring boot application running in UTC timezone :"+new Date());   // It will print UTC timezone
+        TimeZone timeZone = TimeZone.getTimeZone("Europe/Dublin");
+        TimeZone.setDefault(timeZone);
+        System.out.println("Spring boot application running in  timezone :"+timeZone.getDisplayName());
 
     }
 

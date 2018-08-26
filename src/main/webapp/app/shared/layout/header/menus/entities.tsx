@@ -12,7 +12,7 @@ export const EntitiesMenu = props => (
       <FontAwesomeIcon icon="clock" /> Run/Schedule Query
     </DropdownItem>
     <DropdownItem tag={Link} to="/datasource">
-      <FontAwesomeIcon icon="clock" /> Data Sources
+      <FontAwesomeIcon icon="bug" /> Data Sources
     </DropdownItem>
   </NavDropdown>
 );

@@ -1,8 +1,8 @@
 package com.datahipster.app.service;
 
 import com.datahipster.app.DataHipsterConstants;
-import com.datahipster.app.repository.OnePlaceDao;
-import com.datahipster.app.service.dto.RowCallBackHandler;
+import com.datahipster.app.repository.DataBaseConfigDao;
+import com.datahipster.app.service.dto.HipsterRowCallBackHandler;
 import com.datahipster.app.web.rest.json.AWSDataSource;
 import com.datahipster.app.web.rest.json.AWSField;
 import com.datahipster.app.web.rest.json.AWSSchema;
@@ -28,7 +28,7 @@ import java.util.Properties;
 public class DataSourceService {
 
     @Autowired
-    private OnePlaceDao onePlaceDao;
+    private DataBaseConfigDao dataBaseConfigDao;
 
     public Connection connect(AWSDataSource request){
         Connection conn = null;
@@ -49,12 +49,12 @@ public class DataSourceService {
     }
 
     public AWSDataSource getDataSourceById(int id){
-        return onePlaceDao.getDataSourceById(id);
+        return dataBaseConfigDao.getDataSourceById(id);
     }
 
     private String createJdbcUrl(AWSDataSource dataSource){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(onePlaceDao.getDataSourceConstant(dataSource.getEngine(),DataHipsterConstants.CONNECTION_PREFIX));
+        stringBuilder.append(dataBaseConfigDao.getDataSourceConstant(dataSource.getEngine(),DataHipsterConstants.CONNECTION_PREFIX));
         stringBuilder.append(dataSource.getHostname());
         stringBuilder.append(":");
         stringBuilder.append(dataSource.getPort());
@@ -124,8 +124,8 @@ public class DataSourceService {
         return true;
     }
 
-    public RowCallBackHandler executeQuery(AWSDataSource awsDataSource, String call) {
-        RowCallBackHandler rowCallbackHandler = new RowCallBackHandler();
+    public HipsterRowCallBackHandler executeQuery(AWSDataSource awsDataSource, String call) {
+        HipsterRowCallBackHandler hipsterRowCallbackHandler = new HipsterRowCallBackHandler();
         Connection connection = awsDataSource.getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -136,7 +136,7 @@ public class DataSourceService {
             preparedStatement = connection.prepareStatement(call);
             rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                rowCallbackHandler.processRow(rs);
+                hipsterRowCallbackHandler.processRow(rs);
             }
         } catch(SQLException e){
             e.printStackTrace();
@@ -149,7 +149,7 @@ public class DataSourceService {
             }
 
         }
-        return rowCallbackHandler;
+        return hipsterRowCallbackHandler;
     }
 
 }

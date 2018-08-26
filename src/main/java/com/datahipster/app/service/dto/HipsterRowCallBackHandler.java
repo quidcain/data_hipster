@@ -15,15 +15,17 @@ import java.util.Map;
 
 import static java.sql.Types.*;
 
-public class RowCallBackHandler implements RowCallbackHandler {
+public class HipsterRowCallBackHandler implements RowCallbackHandler {
 
-    private static final Logger LOG = LoggerFactory.getLogger(RowCallBackHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HipsterRowCallBackHandler.class);
 
     @JsonProperty("data")
     private List<Map<String,Object>> dataResultSetContents = new ArrayList<>();
 
     @JsonProperty("column_metadata")
     private Map<String,Object> resultSetColumnNames = new HashMap<>();
+
+    private String[] header = null;
 
     @Override
     public void processRow(ResultSet rs) throws SQLException {
@@ -69,9 +71,14 @@ public class RowCallBackHandler implements RowCallbackHandler {
     private void populateColumnNames(Map<String,Object> columnNames, ResultSet resultSet) throws SQLException{
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
         int numberOfColumns = resultSetMetaData.getColumnCount();
-        for(int i = 0; i < numberOfColumns; i++){
-            columnNames.put(resultSetMetaData.getColumnLabel(i + 1),convertSqlToJavaType(resultSetMetaData.getColumnType(i + 1)));
+        if(numberOfColumns > 0){
+            header = new String[numberOfColumns];
+            for(int i = 0; i < numberOfColumns; i++){
+                header[i] = resultSetMetaData.getColumnLabel(i + 1);
+                columnNames.put(resultSetMetaData.getColumnLabel(i + 1),convertSqlToJavaType(resultSetMetaData.getColumnType(i + 1)));
+            }
         }
+
     }
 
     private Class convertSqlToJavaType(int sqlType){
@@ -106,5 +113,13 @@ public class RowCallBackHandler implements RowCallbackHandler {
 
     public List<Map<String, Object>> getDataResultSetContents() {
         return dataResultSetContents;
+    }
+
+    public String[] getHeader() {
+        return header;
+    }
+
+    public Map<String, Object> getResultSetColumnNames() {
+        return resultSetColumnNames;
     }
 }

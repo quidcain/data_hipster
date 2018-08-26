@@ -2,8 +2,6 @@ package com.datahipster.app.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.datahipster.app.quartz.QueryJob;
-import com.datahipster.app.repository.OnePlaceDao;
-import com.datahipster.app.service.DataSourceService;
 import com.datahipster.app.service.QueryService;
 import com.datahipster.app.service.S3Service;
 import com.datahipster.app.service.SchedulerService;
@@ -15,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.List;
@@ -35,9 +32,10 @@ public class QueryController {
     @Autowired
     private S3Service s3Service;
 
-    public QueryController(QueryService queryService, SchedulerService schedulerService) {
+    public QueryController(QueryService queryService, SchedulerService schedulerService, S3Service s3Service) {
         this.queryService = queryService;
         this.schedulerService = schedulerService;
+        this.s3Service = s3Service;
     }
 
     @PostMapping("/query")

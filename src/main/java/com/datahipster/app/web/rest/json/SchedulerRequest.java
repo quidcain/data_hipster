@@ -8,7 +8,7 @@ import java.util.List;
 
 public class SchedulerRequest {
 
-
+    private String queryType;
     private String query;
     @JsonProperty("date_source_id")
     private int dataSourceId;
