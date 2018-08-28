@@ -2,6 +2,7 @@ package com.datahipster.app.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.datahipster.app.model.DrillQueryResult;
+import com.datahipster.app.model.QueryWrapper;
 import com.datahipster.app.quartz.QueryJob;
 import com.datahipster.app.service.QueryService;
 import com.datahipster.app.service.S3Service;
@@ -41,7 +42,7 @@ public class QueryController {
 
     @PostMapping("/query")
     @Timed
-    public DrillQueryResult runQuery(@RequestBody SchedulerRequest request) {
+    public DrillQueryResult runQuery(@RequestBody QueryWrapper request) {
         return queryService.query(request);
     }
 

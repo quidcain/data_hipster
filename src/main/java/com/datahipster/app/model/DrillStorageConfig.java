@@ -1,19 +1,56 @@
 package com.datahipster.app.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class DrillStorageConfig {
 
-    private String type;
-    private boolean enabled;
-    private String connection;
-    private String workspaces;
-    private String formats;
+    public static final String NAME = "jdbc";
+
+    private final String driver;
+    private final String url;
+    private final String username;
+    private final String password;
+    private final String type;
+    private boolean enabled = true;
+
+    @JsonCreator
+    public DrillStorageConfig(
+        @JsonProperty("driver") String driver,
+        @JsonProperty("url") String url,
+        @JsonProperty("username") String username,
+        @JsonProperty("password") String password,
+        @JsonProperty("type") String type) {
+        super();
+        this.driver = driver;
+        this.url = url;
+        this.username = username;
+        this.password = password;
+        this.type = type;
+    }
+
+    public String getDriver() {
+        return driver;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public static String getNAME() {
+        return NAME;
+    }
 
     public String getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public boolean isEnabled() {
@@ -22,29 +59,5 @@ public class DrillStorageConfig {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public String getConnection() {
-        return connection;
-    }
-
-    public void setConnection(String connection) {
-        this.connection = connection;
-    }
-
-    public String getWorkspaces() {
-        return workspaces;
-    }
-
-    public void setWorkspaces(String workspaces) {
-        this.workspaces = workspaces;
-    }
-
-    public String getFormats() {
-        return formats;
-    }
-
-    public void setFormats(String formats) {
-        this.formats = formats;
     }
 }

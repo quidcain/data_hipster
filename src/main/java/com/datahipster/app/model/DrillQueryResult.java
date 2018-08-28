@@ -5,8 +5,17 @@ import java.util.Map;
 
 public class DrillQueryResult {
 
+    private String queryId;
     private String[] columns;
     private List<Map<String,String>> rows;
+
+    public String getQueryId() {
+        return queryId;
+    }
+
+    public void setQueryId(String queryId) {
+        this.queryId = queryId;
+    }
 
     public String[] getColumns() {
         return columns;

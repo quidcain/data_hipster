@@ -21,7 +21,8 @@ export class Home extends React.Component<IHomeProp> {
     return (
       <Row>
         <Col md="9">
-          <p className="lead">No more waiting for engineering to fiddle with crontab</p>
+          <p className="lead">Say bye to convoluted ETL configs, fiddling with cron and shell scripts</p>
+          <p className="lead">Say hello to data hipster</p>
           {account && account.login ? (
             <div>
               <Alert color="success">You are logged in as user {account.login}.</Alert>

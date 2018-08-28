@@ -2,6 +2,7 @@ package com.datahipster.app.web.rest;
 
 import com.datahipster.app.DataHipsterConstants;
 import com.datahipster.app.DatahipsterApp;
+import com.datahipster.app.model.QueryWrapper;
 import com.datahipster.app.service.QueryService;
 import com.datahipster.app.service.S3Service;
 import com.datahipster.app.service.SchedulerService;
@@ -20,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -63,6 +65,14 @@ public class QueryControllerIntTest {
         restLogsMockMvc.perform(put("/api/schedule")
         .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(request)))
         .andExpect(status().is(201));
+    }
+
+    @Test
+    public void executeDrillQuery()throws Exception {
+        QueryWrapper request = new QueryWrapper("select * from localmysql.datahipster.jhi_user","SQL");
+        restLogsMockMvc.perform(post("/api/query")
+            .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(request)))
+            .andExpect(status().is(200));
     }
 
 

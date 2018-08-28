@@ -1,6 +1,7 @@
 package com.datahipster.app.service;
 
 import com.datahipster.app.model.DrillQueryResult;
+import com.datahipster.app.model.QueryWrapper;
 import com.datahipster.app.model.SchedulerRequest;
 import com.datahipster.app.service.retrofit.DrillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,9 @@ import java.io.IOException;
 public class QueryService {
 
     @Autowired
-    private DataSourceService dataSourceService;
-
-    @Autowired
     private RetrofitService retrofitService;
 
-    public DrillQueryResult query(SchedulerRequest request){
+    public DrillQueryResult query(QueryWrapper request){
         DrillService drillService = retrofitService.getDrillRetroFitService();
         Call<DrillQueryResult> drillQuery = drillService.query(request);
         DrillQueryResult result = null;

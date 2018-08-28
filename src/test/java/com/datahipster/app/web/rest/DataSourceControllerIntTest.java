@@ -50,15 +50,22 @@ public class DataSourceControllerIntTest {
             .build();
     }
 
+//    {
+//        "name" : "localmysql",
+//        "config" : {
+//        "type":"jdbc",
+//            "driver":"com.mysql.jdbc.Driver",
+//            "url":"jdbc:mysql://localhost:3306",
+//            "username":"root",
+//            "password":"ZfQx3wek"
+//    }
+//    }
     @Test
-    public void createEveryMinute()throws Exception {
+    public void createStorage()throws Exception {
         DrillStorage drillStorage = new DrillStorage();
         drillStorage.setName("localmysql");
-        DrillStorageConfig config = new DrillStorageConfig();
-        config.setEnabled(true);
-        config.setType("jdbc");
-        config.setWorkspaces("eamoworkspace");
-        config.setConnection("jdbc:mysql://localhost:3306");
+        DrillStorageConfig config = new DrillStorageConfig("com.mysql.jdbc.Driver",
+            "jdbc:mysql://localhost:3306","root","ZfQx3wek","jdbc");
         drillStorage.setConfig(config);
 
         restLogsMockMvc.perform(post("/api/datasource")
