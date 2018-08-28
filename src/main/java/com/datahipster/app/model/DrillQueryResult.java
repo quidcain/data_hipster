@@ -1,5 +1,6 @@
 package com.datahipster.app.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,7 +8,7 @@ public class DrillQueryResult {
 
     private String queryId;
     private String[] columns;
-    private List<Map<String,String>> rows;
+    private List<Map<String,String>> rows = new ArrayList<>();
 
     public String getQueryId() {
         return queryId;
