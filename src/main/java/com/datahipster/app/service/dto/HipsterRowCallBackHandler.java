@@ -23,7 +23,7 @@ public class HipsterRowCallBackHandler implements RowCallbackHandler {
     private List<Map<String,Object>> dataResultSetContents = new ArrayList<>();
 
     @JsonProperty("column_metadata")
-    private Map<String,Object> resultSetColumnNames = new HashMap<>();
+    private Map<String,Class> resultSetColumnNames = new HashMap<>();
 
     private String[] header = null;
 
@@ -35,15 +35,15 @@ public class HipsterRowCallBackHandler implements RowCallbackHandler {
         dataResultSetContents.add(populateResultRowMap(resultSetColumnNames,rs));
     }
 
-    private Map<String,Object> populateResultRowMap(Map<String,Object> columnNames, ResultSet resultSet) throws SQLException{
+    private Map<String,Object> populateResultRowMap(Map<String,Class> columnNames, ResultSet resultSet) throws SQLException{
         Map<String,Object> rowMap = new HashMap<>();
-        for(Map.Entry<String,Object> columnName : columnNames.entrySet()){
+        for(Map.Entry<String,Class> columnName : columnNames.entrySet()){
             populateResultRow(rowMap,columnName,resultSet);
         }
         return rowMap;
     }
 
-    private void populateResultRow(Map<String,Object> rowMap,Map.Entry<String,Object> columnName, ResultSet resultSet) throws SQLException{
+    private void populateResultRow(Map<String,Object> rowMap,Map.Entry<String,Class> columnName, ResultSet resultSet) throws SQLException{
         if(columnName.getValue().equals(Float.class) ){
             rowMap.put(columnName.getKey(),resultSet.getFloat(columnName.getKey()));
             setDefaultNull(rowMap,resultSet.wasNull(),columnName.getKey());
@@ -55,6 +55,9 @@ public class HipsterRowCallBackHandler implements RowCallbackHandler {
             setDefaultNull(rowMap,resultSet.wasNull(),columnName.getKey());
         }else if (columnName.getValue().equals(Long.class)){
             rowMap.put(columnName.getKey(),resultSet.getLong(columnName.getKey()));
+            setDefaultNull(rowMap,resultSet.wasNull(),columnName.getKey());
+        }else if (columnName.getValue().equals(java.sql.Date.class)){
+            rowMap.put(columnName.getKey(),resultSet.getDate(columnName.getKey()));
             setDefaultNull(rowMap,resultSet.wasNull(),columnName.getKey());
         }else{
             rowMap.put(columnName.getKey(),resultSet.getString(columnName.getKey()));
@@ -68,7 +71,7 @@ public class HipsterRowCallBackHandler implements RowCallbackHandler {
         }
     }
 
-    private void populateColumnNames(Map<String,Object> columnNames, ResultSet resultSet) throws SQLException{
+    private void populateColumnNames(Map<String,Class> columnNames, ResultSet resultSet) throws SQLException{
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
         int numberOfColumns = resultSetMetaData.getColumnCount();
         if(numberOfColumns > 0){
@@ -104,9 +107,22 @@ public class HipsterRowCallBackHandler implements RowCallbackHandler {
                 clazz = Boolean.class;
                 break;
 
+            case BIT:
+                clazz = Boolean.class;
+                break;
+
+            case VARCHAR:
+                clazz = String.class;
+                break;
+
+            case TIMESTAMP:
+                clazz = java.sql.Date.class;
+                break;
+
             default:
                 clazz = String.class;
                 break;
+
         }
         return clazz;
     }
@@ -119,7 +135,7 @@ public class HipsterRowCallBackHandler implements RowCallbackHandler {
         return header;
     }
 
-    public Map<String, Object> getResultSetColumnNames() {
+    public Map<String, Class> getResultSetColumnNames() {
         return resultSetColumnNames;
     }
 }

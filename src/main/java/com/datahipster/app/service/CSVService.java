@@ -3,11 +3,11 @@ package com.datahipster.app.service;
 import com.datahipster.app.service.dto.HipsterRowCallBackHandler;
 import com.opencsv.CSVWriter;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ClassUtils;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -26,21 +26,30 @@ public class CSVService {
         csvWriter.writeNext(header);
 
         List<Map<String,Object>> rows = handler.getDataResultSetContents();
-        Map<String,Object> columnMetadata = handler.getResultSetColumnNames();
+        Map<String,Class> columnMetadata = handler.getResultSetColumnNames();
 
         for(Map<String,Object> row : rows){
             String[] values = new String[row.size()];
 
             for(int i = 0; i < header.length;i++){
-                Object type = columnMetadata.get(header[i]);
-                if(ClassUtils.isAssignable(type.getClass(),Float.class)){
+                Class type = columnMetadata.get(header[i]);
+                String typeName = type.getName();
+                if(typeName.equalsIgnoreCase("java.lang.Float")){
                     values[i] = Float.toString((Float)row.get(header[i]));
-                }else if(ClassUtils.isAssignable(type.getClass(),Integer.class)) {
+                }else if(typeName.equalsIgnoreCase("java.lang.Integer")) {
                     values[i] = Integer.toString((Integer)row.get(header[i]));
-                }else if(ClassUtils.isAssignable(type.getClass(),Long.class)) {
+                }else if(typeName.equalsIgnoreCase("java.lang.Long")) {
                     values[i] = Long.toString((Long) row.get(header[i]));
-                }else if(ClassUtils.isAssignable(type.getClass(),Boolean.class)) {
+                }else if(typeName.equalsIgnoreCase("java.lang.Boolean")) {
                     values[i] = Boolean.toString((Boolean) row.get(header[i]));
+                }else if(typeName.equalsIgnoreCase("java.sql.Date")) {
+                    Date date = (Date) row.get(header[i]);
+                    if(date != null){
+                        values[i] = date.toString();
+                    }else{
+                        values[i] = "";
+                    }
+
                 }else {
                     values[i] = (String)row.get(header[i]);
                 }

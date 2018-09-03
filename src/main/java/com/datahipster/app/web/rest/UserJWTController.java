@@ -1,5 +1,6 @@
 package com.datahipster.app.web.rest;
 
+import com.datahipster.app.DatahipsterApp;
 import com.datahipster.app.security.jwt.JWTConfigurer;
 import com.datahipster.app.security.jwt.TokenProvider;
 import com.datahipster.app.web.rest.vm.LoginVM;
@@ -7,6 +8,8 @@ import com.datahipster.app.web.rest.vm.LoginVM;
 import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +27,8 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api")
 public class UserJWTController {
+
+    private static final Logger log = LoggerFactory.getLogger(UserJWTController.class);
 
     private final TokenProvider tokenProvider;
 
@@ -45,6 +50,7 @@ public class UserJWTController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         boolean rememberMe = (loginVM.isRememberMe() == null) ? false : loginVM.isRememberMe();
         String jwt = tokenProvider.createToken(authentication, rememberMe);
+        log.info("Creating token for {} : {}",loginVM.getUsername(),jwt);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
