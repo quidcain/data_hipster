@@ -17,16 +17,8 @@ export interface IQueryState {
 }
 
 export class QueryPage extends React.Component<IQueryProps, IQueryState> {
-  state: IQueryState = {
-    password: '',
-    rows: [],
-    columns: []
-  };
-
   componentDidMount() {
     this.props.getSession();
-    this.createRows();
-    this.state.columns = [{ key: 'id', name: 'ID' }, { key: 'title', name: 'Title' }, { key: 'count', name: 'Count' }];
   }
 
   componentWillUnmount() {}
@@ -35,20 +27,11 @@ export class QueryPage extends React.Component<IQueryProps, IQueryState> {
     this.props.runQuery(values.query);
   };
 
-  createRows = () => {
-    const rows = [];
-    for (let i = 1; i < 1000; i++) {
-      rows.push({
-        id: i,
-        title: 'Title ' + i,
-        count: i * 1000
-      });
-    }
+  getColumns() {
+    return this.props.columns.map(v => ({ key: v, name: v }));
+  }
 
-    this.state.rows = rows;
-  };
-
-  rowGetter = i => this.state.rows[i];
+  rowGetter = i => this.props.rows[i];
 
   handleScheduleSubmit = (event, errors, values) => {
     this.props.scheduleQuery(values.timeMeasure, values.frequencyValue);
@@ -76,7 +59,7 @@ export class QueryPage extends React.Component<IQueryProps, IQueryState> {
                 Run Query
               </Button>
             </AvForm>
-            <ReactDataGrid columns={this.state.columns} rowGetter={this.rowGetter} rowsCount={this.state.rows.length} minHeight={500} />
+            <ReactDataGrid columns={this.getColumns()} rowGetter={this.rowGetter} rowsCount={this.props.rows.length} minHeight={500} />
           </Col>
         </Row>
       </div>
@@ -84,9 +67,11 @@ export class QueryPage extends React.Component<IQueryProps, IQueryState> {
   }
 }
 
-const mapStateToProps = ({ authentication }: IRootState) => ({
+const mapStateToProps = ({ authentication, query }: IRootState) => ({
   account: authentication.account,
-  isAuthenticated: authentication.isAuthenticated
+  isAuthenticated: authentication.isAuthenticated,
+  columns: query.columns,
+  rows: query.rows
 });
 
 const mapDispatchToProps = { getSession, runQuery, scheduleQuery };

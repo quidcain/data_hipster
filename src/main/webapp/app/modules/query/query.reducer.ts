@@ -11,7 +11,9 @@ const initialState = {
   loading: false,
   errorMessage: null,
   updateSuccess: false,
-  updateFailure: false
+  updateFailure: false,
+  columns: [],
+  rows: []
 };
 
 export type QueryState = Readonly<typeof initialState>;
@@ -31,14 +33,19 @@ export default (state: QueryState = initialState, action): QueryState => {
         ...initialState,
         loading: false,
         updateSuccess: false,
-        updateFailure: true
+        updateFailure: true,
+        columns: [],
+        rows: []
       };
     case SUCCESS(ACTION_TYPES.RUN_QUERY):
+      const { columns, rows } = action.payload.data;
       return {
         ...initialState,
         loading: false,
         updateSuccess: true,
-        updateFailure: false
+        updateFailure: false,
+        columns,
+        rows
       };
     default:
       return state;
