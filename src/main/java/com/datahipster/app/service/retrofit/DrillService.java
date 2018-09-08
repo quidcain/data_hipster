@@ -2,6 +2,7 @@ package com.datahipster.app.service.retrofit;
 
 import com.datahipster.app.model.DrillQueryResult;
 import com.datahipster.app.model.DrillStorage;
+import com.datahipster.app.model.DrillStorageConfig;
 import com.datahipster.app.model.QueryWrapper;
 import retrofit2.Call;
 import retrofit2.http.Body;

@@ -1,11 +1,8 @@
 package com.datahipster.app.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.datahipster.app.model.DrillQueryResult;
-import com.datahipster.app.model.DrillStorage;
-import com.datahipster.app.model.QueryWrapper;
+import com.datahipster.app.model.*;
 import com.datahipster.app.service.DataSourceService;
-import com.datahipster.app.model.AWSDataSource;
 import com.datahipster.app.service.RetrofitService;
 import com.datahipster.app.service.retrofit.DrillService;
 import org.springframework.beans.factory.annotation.Autowired;
