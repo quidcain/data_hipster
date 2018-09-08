@@ -30,8 +30,8 @@ public class QueryJob implements Job {
     @Autowired
     private CSVService csvService;
 
-    @Autowired
-    private S3Service s3Service;
+//    @Autowired
+//    private S3Service s3Service;
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) {
@@ -46,8 +46,8 @@ public class QueryJob implements Job {
         try {
             String fileName = csvService.createCsv(handler,uuid);
             if(fileName != null){
-                s3Service.put("data-hipster-extracts",fileName.substring(fileName.lastIndexOf("/"),fileName.length())
-                ,new File(fileName));
+             //   s3Service.put("data-hipster-extracts",fileName.substring(fileName.lastIndexOf("/"),fileName.length())
+               // ,new File(fileName));
             }
 
         } catch (IOException e) {
