@@ -47,7 +47,7 @@ export default (state: QueryState = initialState, action): QueryState => {
 
 export const runQuery = query => ({
   type: ACTION_TYPES.RUN_QUERY,
-  payload: axios.post('api/query', { query: query, queryType: 'SQL' }),
+  payload: axios.post('api/query', { query, queryType: 'SQL' }),
   meta: {
     successMessage: 'Query executed',
     errorMessage: 'Error Running Query no data will be returned.'
@@ -58,7 +58,7 @@ export const scheduleQuery = (timeMeasure, frequencyValue) => ({
   type: ACTION_TYPES.SCHEDULE_QUERY,
   payload: axios.put('api/schedule', { timeMeasure, frequencyValue }).then(res => {
     const persons = res.data;
-    this.setState({ columns: res.data.columns, rows: res.data.rows });
+    // this.setState({ columns: res.data.columns, rows: res.data.rows });
   }),
   meta: {
     successMessage: '<strong>Query scheduled</strong>',

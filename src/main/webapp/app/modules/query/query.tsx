@@ -48,9 +48,7 @@ export class QueryPage extends React.Component<IQueryProps, IQueryState> {
     this.state.rows = rows;
   };
 
-  rowGetter = i => {
-    return this.state.rows[i];
-  };
+  rowGetter = i => this.state.rows[i];
 
   handleScheduleSubmit = (event, errors, values) => {
     this.props.scheduleQuery(values.timeMeasure, values.frequencyValue);
