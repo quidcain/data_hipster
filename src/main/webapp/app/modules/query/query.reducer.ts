@@ -11,7 +11,9 @@ const initialState = {
   loading: false,
   errorMessage: null,
   updateSuccess: false,
-  updateFailure: false
+  updateFailure: false,
+  columns: [],
+  rows: []
 };
 
 export type QueryState = Readonly<typeof initialState>;
@@ -31,14 +33,19 @@ export default (state: QueryState = initialState, action): QueryState => {
         ...initialState,
         loading: false,
         updateSuccess: false,
-        updateFailure: true
+        updateFailure: true,
+        columns: [],
+        rows: []
       };
     case SUCCESS(ACTION_TYPES.RUN_QUERY):
+      const { columns, rows } = action.payload.data;
       return {
         ...initialState,
         loading: false,
         updateSuccess: true,
-        updateFailure: false
+        updateFailure: false,
+        columns,
+        rows
       };
     default:
       return state;
@@ -47,16 +54,19 @@ export default (state: QueryState = initialState, action): QueryState => {
 
 export const runQuery = query => ({
   type: ACTION_TYPES.RUN_QUERY,
-  payload: axios.post('api/query', { query }),
+  payload: axios.post('api/query', { query, queryType: 'SQL' }),
   meta: {
-    successMessage: '<strong>Query executed</strong>',
-    errorMessage: '<strong>Error Running Query</strong> no data will be returned.'
+    successMessage: 'Query executed',
+    errorMessage: 'Error Running Query no data will be returned.'
   }
 });
 
 export const scheduleQuery = (timeMeasure, frequencyValue) => ({
   type: ACTION_TYPES.SCHEDULE_QUERY,
-  payload: axios.put('api/schedule', { timeMeasure, frequencyValue }),
+  payload: axios.put('api/schedule', { timeMeasure, frequencyValue }).then(res => {
+    const persons = res.data;
+    // this.setState({ columns: res.data.columns, rows: res.data.rows });
+  }),
   meta: {
     successMessage: '<strong>Query scheduled</strong>',
     errorMessage: '<strong>Error Scheduling Query</strong> no schedule was created.'

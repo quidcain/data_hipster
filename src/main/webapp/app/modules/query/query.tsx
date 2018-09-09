@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { Row, Col, Button } from 'reactstrap';
-
+import ReactDataGrid from 'react-data-grid';
 import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
 import { runQuery, scheduleQuery } from './query.reducer';
@@ -12,13 +12,11 @@ export interface IQueryProps extends StateProps, DispatchProps {}
 
 export interface IQueryState {
   password: string;
+  rows: any;
+  columns: any;
 }
 
 export class QueryPage extends React.Component<IQueryProps, IQueryState> {
-  state: IQueryState = {
-    password: ''
-  };
-
   componentDidMount() {
     this.props.getSession();
   }
@@ -28,6 +26,12 @@ export class QueryPage extends React.Component<IQueryProps, IQueryState> {
   handleValidSubmit = (event, values) => {
     this.props.runQuery(values.query);
   };
+
+  getColumns() {
+    return this.props.columns.map(v => ({ key: v, name: v }));
+  }
+
+  rowGetter = i => this.props.rows[i];
 
   handleScheduleSubmit = (event, errors, values) => {
     this.props.scheduleQuery(values.timeMeasure, values.frequencyValue);
@@ -52,28 +56,10 @@ export class QueryPage extends React.Component<IQueryProps, IQueryState> {
                 }}
               />
               <Button color="success" type="submit">
-                Preview Data (100 rows)
+                Run Query
               </Button>
             </AvForm>
-          </Col>
-        </Row>
-        <Row>
-          <Col sm={{ size: 6, order: 2, offset: 2 }}>
-            <AvForm id="schedule-form" onSubmit={this.handleScheduleSubmit}>
-              <h2 id="schedule-title">Schedule</h2>
-              <AvField type="select" name="timeMeasure" label="Time Scale" helpMessage="Every..">
-                <option>Minute</option>
-                <option>Hour</option>
-                <option>Day</option>
-                <option>Week</option>
-                <option>Month</option>
-                <option>Year</option>
-              </AvField>
-              <AvField name="frequencyValue" label="frequency" />
-              <Button color="success" type="submit">
-                Schedule Query
-              </Button>
-            </AvForm>
+            <ReactDataGrid columns={this.getColumns()} rowGetter={this.rowGetter} rowsCount={this.props.rows.length} minHeight={500} />
           </Col>
         </Row>
       </div>
@@ -81,9 +67,11 @@ export class QueryPage extends React.Component<IQueryProps, IQueryState> {
   }
 }
 
-const mapStateToProps = ({ authentication }: IRootState) => ({
+const mapStateToProps = ({ authentication, query }: IRootState) => ({
   account: authentication.account,
-  isAuthenticated: authentication.isAuthenticated
+  isAuthenticated: authentication.isAuthenticated,
+  columns: query.columns,
+  rows: query.rows
 });
 
 const mapDispatchToProps = { getSession, runQuery, scheduleQuery };

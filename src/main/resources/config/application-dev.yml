@@ -35,9 +35,9 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/datahipster?useUnicode=true&characterEncoding=utf8&useSSL=false
-        username: root
-        password: ZfQx3wek
+        url: jdbc:mysql://aaiaedu4ynrvt2.cnblpzhyptco.eu-west-1.rds.amazonaws.com:3306/datahipster?useUnicode=true&characterEncoding=utf8&useSSL=false
+        username: datahipster
+        password: fsyshz*m123
         hikari:
             data-source-properties:
                 cachePrepStmts: true
