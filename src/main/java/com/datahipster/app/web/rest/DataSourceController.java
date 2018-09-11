@@ -1,11 +1,8 @@
 package com.datahipster.app.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.datahipster.app.model.DrillQueryResult;
-import com.datahipster.app.model.DrillStorage;
-import com.datahipster.app.model.QueryWrapper;
+import com.datahipster.app.model.*;
 import com.datahipster.app.service.DataSourceService;
-import com.datahipster.app.model.AWSDataSource;
 import com.datahipster.app.service.RetrofitService;
 import com.datahipster.app.service.retrofit.DrillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +45,44 @@ public class DataSourceController {
     }
 
     @GetMapping("/datasource")
+    @Timed
+    public List<DrillStorage> listDataSource() {
+        WorkspaceConfig exampleWorkSpaceConfig = new WorkspaceConfig();
+        exampleWorkSpaceConfig.setWritable(true);
+        exampleWorkSpaceConfig.setDefaultInputFormat("csv");
+        exampleWorkSpaceConfig.setLocation("/some/dir");
+        Map<String,WorkspaceConfig> workspaceConfigMap = new HashMap<>();
+        workspaceConfigMap.put("tmp",exampleWorkSpaceConfig);
+        List<DrillStorage> ret = new ArrayList<>();
+        Map<String,String> configMap = new HashMap<>();
+        configMap.put("key","value");
+        DrillStorage mysql = new DrillStorage();
+        mysql.setName("local mysql");
+        DrillStorageConfig mysqlConfig = new DrillStorageConfig();
+        mysqlConfig.setType("jdbc");
+        mysqlConfig.setConnection("example mysql connection");
+        mysqlConfig.setWorkspaces(workspaceConfigMap);
+        mysqlConfig.setConfig(configMap);
+        mysql.setConfig(mysqlConfig);
+
+        DrillStorage postgres = new DrillStorage();
+        postgres.setName("local postgres");
+        DrillStorageConfig postgresConfig = new DrillStorageConfig();
+        postgresConfig.setType("jdbc");
+        postgresConfig.setConnection("example postgres connection");
+        postgresConfig.setWorkspaces(workspaceConfigMap);
+        postgresConfig.setConfig(configMap);
+        postgres.setConfig(postgresConfig);
+        ret.add(mysql);
+        ret.add(mysql);
+        ret.add(mysql);
+        ret.add(postgres);
+        ret.add(postgres);
+        ret.add(postgres);
+        return ret;
+    }
+
+    @GetMapping("/getTables")
     @Timed
     public List<String> getTables() {
         DrillService drillService = retrofitService.getDrillRetroFitService();
