@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,23 +43,7 @@ public class QueryController {
     @PostMapping("/query")
     @Timed
     public DrillQueryResult runQuery(@RequestBody QueryWrapper request) {
-        DrillQueryResult result = new DrillQueryResult();
-        result.setQueryId("some_random_id");
-        result.setColumns(new String[]{"column_1","column_2","column_3","column_4","column_5"});
-        List<Map<String,String>> rows = new ArrayList<>();
-        Map<String,String> row1 = new HashMap<>();
-        row1.put("column_1","test value1");
-        row1.put("column_2","test value1");
-        row1.put("column_3","test value1");
-        row1.put("column_4","test value1");
-        row1.put("column_5","test value1");
-        rows.add(row1);
-        rows.add(row1);
-        rows.add(row1);
-        rows.add(row1);
-        rows.add(row1);
-        result.setRows(rows);
-        return result;
+        return queryService.query(request);
     }
 
     @PutMapping("/schedule")

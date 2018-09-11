@@ -3,13 +3,7 @@ package com.datahipster.app.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Stores the workspace related config. A workspace has:
- *  - location which is a path.
- *  - writable flag to indicate whether the location supports creating new tables.
- *  - default storage format for new tables created in this workspace.
- */
-@JsonIgnoreProperties(value = {"storageformat"}, ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WorkspaceConfig {
 
   private  String location;

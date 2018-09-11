@@ -46,6 +46,22 @@ public class DataSourceController {
 
     @GetMapping("/datasource")
     @Timed
+    public List<DrillStorage> listDataSource() {
+        DrillService drillService = retrofitService.getDrillRetroFitService();
+        List<DrillStorage> ret;
+        try {
+            Call<List<DrillStorage>> call = drillService.listStorage();
+            Response<List<DrillStorage>> response = call.execute();
+            ret = response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return ret;
+    }
+
+    @GetMapping("/getTables")
+    @Timed
     public List<String> getTables() {
         DrillService drillService = retrofitService.getDrillRetroFitService();
         List<String> ret = new ArrayList<>();

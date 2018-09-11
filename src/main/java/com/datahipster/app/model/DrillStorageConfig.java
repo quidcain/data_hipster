@@ -1,10 +1,14 @@
 package com.datahipster.app.model;
 
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DrillStorageConfig {
 
     private String driver;
@@ -16,6 +20,9 @@ public class DrillStorageConfig {
     private boolean enabled = true;
     private Map<String, WorkspaceConfig> workspaces;
     private Map<String, FormatPluginConfig> formats;
+    @JsonProperty("configProps")
+    @JsonAlias("config")
+    private Map<String, String> config;
 
     public String getDriver() {
         return driver;
@@ -87,5 +94,13 @@ public class DrillStorageConfig {
 
     public void setFormats(Map<String, FormatPluginConfig> formats) {
         this.formats = formats;
+    }
+
+    public Map<String, String> getConfig() {
+        return config;
+    }
+
+    public void setConfig(Map<String, String> config) {
+        this.config = config;
     }
 }
