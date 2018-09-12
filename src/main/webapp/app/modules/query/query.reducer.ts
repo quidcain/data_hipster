@@ -38,14 +38,13 @@ export default (state: QueryState = initialState, action): QueryState => {
         rows: []
       };
     case SUCCESS(ACTION_TYPES.RUN_QUERY):
-      const { columns, rows } = action.payload.data;
       return {
         ...initialState,
         loading: false,
         updateSuccess: true,
         updateFailure: false,
-        columns,
-        rows
+        columns: action.payload.data.columns || [],
+        rows: action.payload.data.rows || []
       };
     default:
       return state;
