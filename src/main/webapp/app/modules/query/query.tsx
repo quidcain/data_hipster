@@ -28,7 +28,7 @@ export class QueryPage extends React.Component<IQueryProps, IQueryState> {
   };
 
   getColumns() {
-    return this.props.columns.map(v => ({ key: v, name: v }));
+    return this.props.columns.map(v => ({ key: v, name: v, resizable: true }));
   }
 
   rowGetter = i => this.props.rows[i];
