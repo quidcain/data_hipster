@@ -6,19 +6,19 @@ import { Row, Col, Button } from 'reactstrap';
 
 import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
-import { testDataSource } from './datasource.reducer';
+import { testDatasource, getDatasource } from './datasource.reducer';
 
-export interface IDataSourceProps extends StateProps, DispatchProps {}
+export interface IDatasourceProps extends StateProps, DispatchProps {}
 
-export interface IDataSourceState {
+export interface IDatasourceState {
   hostname: string;
   username: string;
   password: string;
   schema: string;
 }
 
-export class QueryPage extends React.Component<IDataSourceProps, IDataSourceState> {
-  state: IDataSourceState = {
+export class DatasourcePage extends React.Component<IDatasourceProps, IDatasourceState> {
+  state: IDatasourceState = {
     hostname: '',
     username: '',
     password: '',
@@ -27,17 +27,18 @@ export class QueryPage extends React.Component<IDataSourceProps, IDataSourceStat
 
   componentDidMount() {
     this.props.getSession();
+    this.props.getDatasource();
   }
 
   componentWillUnmount() {}
 
   handleValidSubmit = (event, values) => {
-    this.props.testDataSource(values.hostname, values.username, values.password, values.schema);
+    this.props.testDatasource(values.hostname, values.username, values.password, values.schema);
   };
 
   testDataSource = (event, errors, values) => {
     event.preventDefault();
-    this.props.testDataSource(this.state.hostname, this.state.username, this.state.password, this.state.schema);
+    this.props.testDatasource(this.state.hostname, this.state.username, this.state.password, this.state.schema);
   };
 
   render() {
@@ -105,12 +106,13 @@ export class QueryPage extends React.Component<IDataSourceProps, IDataSourceStat
   }
 }
 
-const mapStateToProps = ({ authentication }: IRootState) => ({
+const mapStateToProps = ({ authentication, datasource }: IRootState) => ({
   account: authentication.account,
-  isAuthenticated: authentication.isAuthenticated
+  isAuthenticated: authentication.isAuthenticated,
+  datasources: datasource.datasources
 });
 
-const mapDispatchToProps = { getSession, testDataSource };
+const mapDispatchToProps = { getSession, testDatasource, getDatasource };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
@@ -118,4 +120,4 @@ type DispatchProps = typeof mapDispatchToProps;
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(QueryPage);
+)(DatasourcePage);
