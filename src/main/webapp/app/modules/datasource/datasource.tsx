@@ -7,6 +7,7 @@ import { Row, Col, Button } from 'reactstrap';
 import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
 import { testDatasource, getDatasource } from './datasource.reducer';
+import DatasourceCards from './datasource-cards';
 
 export interface IDatasourceProps extends StateProps, DispatchProps {}
 
@@ -101,6 +102,7 @@ export class DatasourcePage extends React.Component<IDatasourceProps, IDatasourc
             </AvForm>
           </Col>
         </Row>
+        <DatasourceCards datasources={this.props.datasources} />
       </div>
     );
   }
